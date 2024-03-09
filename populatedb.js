@@ -1,22 +1,18 @@
 #! /usr/bin/env node
 
 console.log(
-  'This script populates some test books, authors, genres and bookinstances to your database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"',
+  'This script populates some test items to your database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"',
 );
+// node populatedb "mongodb+srv://admin:admin4321@cluster0.qjtveoj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
 
 const mongoose = require('mongoose');
-const Book = require('./models/book');
-const Author = require('./models/author');
-const Genre = require('./models/genre');
-const BookInstance = require('./models/bookinstance');
 
-const genres = [];
-const authors = [];
-const books = [];
-const bookinstances = [];
+const Item = require('./models/item');
+
+const items = [];
 
 mongoose.set('strictQuery', false);
 
@@ -28,196 +24,65 @@ async function main() {
   console.log('Debug: About to connect');
   await mongoose.connect(mongoDB);
   console.log('Debug: Should be connected?');
-  await createGenres();
-  await createAuthors();
-  await createBooks();
-  await createBookInstances();
+  await createItems();
   console.log('Debug: Closing mongoose');
   mongoose.connection.close();
 }
 
-// We pass the index to the ...Create functions so that, for example,
-// genre[0] will always be the Fantasy genre, regardless of the order
-// in which the elements of promise.all's argument complete.
-async function genreCreate(index, name) {
-  const genre = new Genre({ name });
-  await genre.save();
-  genres[index] = genre;
-  console.log(`Added genre: ${name}`);
-}
-
-async function authorCreate(index, first_name, family_name, d_birth, d_death) {
-  const authordetail = { first_name, family_name };
-  if (d_birth != false) authordetail.date_of_birth = d_birth;
-  if (d_death != false) authordetail.date_of_death = d_death;
-
-  const author = new Author(authordetail);
-
-  await author.save();
-  authors[index] = author;
-  console.log(`Added author: ${first_name} ${family_name}`);
-}
-
-async function bookCreate(index, title, summary, isbn, author, genre) {
-  const bookdetail = {
-    title,
-    summary,
+async function itemCreate(index, category, name, author, genre, details) {
+  const itemdetail = {
+    category,
+    name,
     author,
-    isbn,
+    genre,
+    details,
   };
-  if (genre != false) bookdetail.genre = genre;
 
-  const book = new Book(bookdetail);
-  await book.save();
-  books[index] = book;
-  console.log(`Added book: ${title}`);
+  const item = new Item(itemdetail);
+  await item.save();
+  items[index] = item;
+  console.log(`Added item: ${category}-${name}`);
 }
 
-async function bookInstanceCreate(index, book, imprint, due_back, status) {
-  const bookinstancedetail = {
-    book,
-    imprint,
-  };
-  if (due_back != false) bookinstancedetail.due_back = due_back;
-  if (status != false) bookinstancedetail.status = status;
-
-  const bookinstance = new BookInstance(bookinstancedetail);
-  await bookinstance.save();
-  bookinstances[index] = bookinstance;
-  console.log(`Added bookinstance: ${imprint}`);
-}
-
-async function createGenres() {
-  console.log('Adding genres');
+async function createItems() {
+  console.log('Adding Items');
   await Promise.all([
-    genreCreate(0, 'Fantasy'),
-    genreCreate(1, 'Science Fiction'),
-    genreCreate(2, 'French Poetry'),
-  ]);
-}
-
-async function createAuthors() {
-  console.log('Adding authors');
-  await Promise.all([
-    authorCreate(0, 'Patrick', 'Rothfuss', '1973-06-06', false),
-    authorCreate(1, 'Ben', 'Bova', '1932-11-8', false),
-    authorCreate(2, 'Isaac', 'Asimov', '1920-01-02', '1992-04-06'),
-    authorCreate(3, 'Bob', 'Billings', false, false),
-    authorCreate(4, 'Jim', 'Jones', '1971-12-16', false),
-  ]);
-}
-
-async function createBooks() {
-  console.log('Adding Books');
-  await Promise.all([
-    bookCreate(
-      0,
-      'The Name of the Wind (The Kingkiller Chronicle, #1)',
-      'I have stolen princesses back from sleeping barrow kings. I burned down the town of Trebon. I have spent the night with Felurian and left with both my sanity and my life. I was expelled from the University at a younger age than most people are allowed in. I tread paths by moonlight that others fear to speak of during day. I have talked to Gods, loved women, and written songs that make the minstrels weep.',
-      '9781473211896',
-      authors[0],
-      [genres[0]],
-    ),
-    bookCreate(
-      1,
-      "The Wise Man's Fear (The Kingkiller Chronicle, #2)",
-      'Picking up the tale of Kvothe Kingkiller once again, we follow him into exile, into political intrigue, courtship, adventure, love and magic... and further along the path that has turned Kvothe, the mightiest magician of his age, a legend in his own time, into Kote, the unassuming pub landlord.',
-      '9788401352836',
-      authors[0],
-      [genres[0]],
-    ),
-    bookCreate(
-      2,
-      'The Slow Regard of Silent Things (Kingkiller Chronicle)',
-      'Deep below the University, there is a dark place. Few people know of it: a broken web of ancient passageways and abandoned rooms. A young woman lives there, tucked among the sprawling tunnels of the Underthing, snug in the heart of this forgotten place.',
-      '9780756411336',
-      authors[0],
-      [genres[0]],
-    ),
-    bookCreate(
-      3,
-      'Apes and Angels',
-      'Humankind headed out to the stars not for conquest, nor exploration, nor even for curiosity. Humans went to the stars in a desperate crusade to save intelligent life wherever they found it. A wave of death is spreading through the Milky Way galaxy, an expanding sphere of lethal gamma ...',
-      '9780765379528',
-      authors[1],
-      [genres[1]],
-    ),
-    bookCreate(
-      4,
-      'Death Wave',
-      "In Ben Bova's previous novel New Earth, Jordan Kell led the first human mission beyond the solar system. They discovered the ruins of an ancient alien civilization. But one alien AI survived, and it revealed to Jordan Kell that an explosion in the black hole at the heart of the Milky Way galaxy has created a wave of deadly radiation, expanding out from the core toward Earth. Unless the human race acts to save itself, all life on Earth will be wiped out...",
-      '9780765379504',
-      authors[1],
-      [genres[1]],
-    ),
-    bookCreate(
-      5,
-      'Test Book 1',
-      'Summary of test book 1',
-      'ISBN111111',
-      authors[4],
-      [genres[0], genres[1]],
-    ),
-    bookCreate(
-      6,
-      'Test Book 2',
-      'Summary of test book 2',
-      'ISBN222222',
-      authors[4],
-      false,
-    ),
-  ]);
-}
-
-async function createBookInstances() {
-  console.log('Adding authors');
-  await Promise.all([
-    bookInstanceCreate(0, books[0], 'London Gollancz, 2014.', false, 'Available'),
-    bookInstanceCreate(1, books[1], ' Gollancz, 2011.', false, 'Loaned'),
-    bookInstanceCreate(2, books[2], ' Gollancz, 2015.', false, false),
-    bookInstanceCreate(
-      3,
-      books[3],
-      'New York Tom Doherty Associates, 2016.',
-      false,
-      'Available',
-    ),
-    bookInstanceCreate(
-      4,
-      books[3],
-      'New York Tom Doherty Associates, 2016.',
-      false,
-      'Available',
-    ),
-    bookInstanceCreate(
-      5,
-      books[3],
-      'New York Tom Doherty Associates, 2016.',
-      false,
-      'Available',
-    ),
-    bookInstanceCreate(
-      6,
-      books[4],
-      'New York, NY Tom Doherty Associates, LLC, 2015.',
-      false,
-      'Available',
-    ),
-    bookInstanceCreate(
-      7,
-      books[4],
-      'New York, NY Tom Doherty Associates, LLC, 2015.',
-      false,
-      'Maintenance',
-    ),
-    bookInstanceCreate(
-      8,
-      books[4],
-      'New York, NY Tom Doherty Associates, LLC, 2015.',
-      false,
-      'Loaned',
-    ),
-    bookInstanceCreate(9, books[0], 'Imprint XXX2', false, false),
-    bookInstanceCreate(10, books[1], 'Imprint XXX3', false, false),
+    itemCreate(0, 'films', 'The Lord of the Rings: The Fellowship of the Ring', 'Peter Jackson', ['fantasy', 'adventure'], 'A young hobbit and a varied group, made up of humans, a dwarf, an elf and other hobbits, set off on a delicate mission, led by the powerful wizard Gandalf. They must destroy a magical ring and thus defeat the evil Sauron.'),
+    itemCreate(1, 'films', 'The Lord of the Rings: The Two Towers', 'Peter Jackson', ['fantasy', 'adventure'], 'The now separated members of the Fellowship of the Ring follow different paths as they attempt to destroy the ring and defeat Sauron.'),
+    itemCreate(2, 'films', 'The Lord of the Rings: The Return of the King', 'Peter Jackson', ['fantasy', 'adventure'], 'While Frodo and Sam, accompanied by Gollum, continue their journey towards Mount Doom to destroy the ring, the rest of the company rushes to the aid of Rohan and Gondor, engaged in the battle of the Pellenor Fields.'),
+    itemCreate(3, 'tv series', 'Star Trek: Deep Space Nine', ['Rick Berman', 'Michael Piller'], 'science fiction', 'Commander Sisko has been assigned to the remote Starfleet outpost, space station Deep Space 9, where he has to oversee the recovery of the Bajoran people who are at the tail end of a lengthy war with a neighbouring race called The Cardassians.'),
+    itemCreate(4, 'tv series', 'Star Trek: Voyager', ['Rick Berman', 'Michael Piller', 'Jeri Taylor'], 'science fiction', 'Pulled to the far side of the galaxy, where the Federation is seventy-five years away at maximum warp speed, a Starfleet ship must cooperate with Maquis rebels to find a way home.'),
+    itemCreate(5, 'books', 'The Lord of the Rings', 'John Ronald Reuel Tolkien', ['high fantasy', 'adventure'], 'The title refers to the story\'s main antagonist,[b] Sauron, the Dark Lord who in an earlier age created the One Ring to rule the other Rings of Power given to Men, Dwarves, and Elves, in his campaign to conquer all of Middle-earth. From homely beginnings in the Shire, a hobbit land reminiscent of the English countryside, the story ranges across Middle-earth, following the quest to destroy the One Ring, seen mainly through the eyes of the hobbits Frodo, Sam, Merry, and Pippin. Aiding Frodo are the Wizard Gandalf, the Men Aragorn and Boromir, the Elf Legolas, and the Dwarf Gimli, who unite in order to rally the Free Peoples of Middle-earth against Sauron\'s armies and give Frodo a chance to destroy the One Ring in the fire of Mount Doom.'),
+    itemCreate(6, 'board games', 'Catan', 'Klaus Teuber', ['strategy', 'negotiation'], 'Players take on the roles of settlers, each attempting to build and develop holdings while trading and acquiring resources. Players gain victory points as their settlements grow and the first to reach a set number of victory points, typically 10, wins.'),
+    itemCreate(7, 'games', 'Baldur\'s Gate III', 'Larian Studios', ['role-playing', 'fantasy'], 'Baldur\'s Gate 3 is a role-playing video game with single-player and cooperative multiplayer elements. Players can create one or more characters and form a party along with a number of pre-generated characters to explore the game\'s story. Optionally, players are able to take one of their characters and team up online with other players to form a party.'),
+    itemCreate(8, 'recipes', 'Scientific Pasta Alla Carbonara', 'Dario Bressanini', 'pasta dish', `Ingredients for one person: 80 g of pasta,2 yolk or whole egg (with the yolk the flavor is more intense), 30+10 g of pecorino romano and/or parmesan (the pecorino romano is the traditional ingredient and tastes stronger than parmesan, i like both. The 10 g are for the final addition),40-50 g of bacon/guanciale (guanciale is the traditional ingredient, but after years of testing I much prefer bacon, it tastes better, at least to me),freshly ground black pepper, salt. 
+    Directions:
+    1) Cut the bacon/guanciale into cubes or matches (cubes between 5 and 10 mm on each side, or parallelepipeds with a square base, always between 5 and 10 mm on the side and as high as you like).
+    2)Put the yolks/egg in a large container, grind the black pepper inside (keep in mind that we will put the pasta inside, so it must be large enough for it).
+    *If you use the egg yolks, you can freeze the egg whites in ice molds or other containers and then be used for other recipes*
+    
+    3)Lightly beat the eggs, then add the 30 g of pecorino romano/parmesan and mix to mix well.
+    *If it is too solid you have probably added a lot of cheese or the yolks/eggs were small, do not worry, when you add the pasta there will be a little water with it that will dissolve everything, or if there was little on the pasta, take it directly from the pot a little at a time*
+    
+    4)Put the pancetta/guanciale in a non-stick pan and heat over low heat to melt the fat
+    *Sometimes the bacon may have little fat, to avoid burning it is better to add a little oil at the beginning*
+    
+    5)Continue to cook the pancetta/guanciale until it is crispy but not dry and the fat is solid but almost transparent
+    6)Cook the pasta in plenty of not too salty water
+    *The pecorino romano/parmesan are very salty, adding too much salt could ruin the dish*
+    
+    7)Take the pasta with a fork or kitchen tongs, drain it slightly and place it in the container where you put the yolks/egg, cheese and black pepper.
+    *Do not mix the pasta with the pancetta/guanciale before mixing it with the yolks/egg, cheese and black pepper, otherwise the mix will not stick to the pasta due to the fat in the bacon/guanciale*
+    
+    *If you used short pasta, use a colander but do not drain it completely and remember to set aside a little hot water in case you need it*
+    
+    8)Stir quickly to let the heat left in both the pasta and the water heat the mix until it becomes a cream
+    *If everything is very dry you can add a little water from cooking the pasta*
+    
+    9)Add the bacon/guanciale along with some of its fat
+    *personally to make the dish a little lighter I don't put it or I put very little of it, but if you eat pasta alla carbonara you certainly don't do it to stay on a diet*
+    
+    10)Finish mixing well, serve on the plate and add the remaining cheese
+    BUON APPETITO!`),
   ]);
 }
