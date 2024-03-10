@@ -4,3 +4,15 @@ block content
   h1 The Inventory Of Favorites
   h3 Welcome to the favorites inventory, here you can share your favorite things
 
+  h1= title
+  if item_category_list.length
+    ul
+      li
+        input(type='checkbox' id='all-categories' name='all-categories' checked)
+        label(for='all-categories') All-categories
+      each category in item_category_list
+        li
+          input(type='checkbox' id=category.category name=category.category) 
+          label(for=category.category) #{category.category}
+  else
+    p There are no books.
