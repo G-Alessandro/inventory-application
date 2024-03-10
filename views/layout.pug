@@ -1,7 +1,27 @@
 doctype html
 html
   head
-    title= title
+    title The Inventory Of Favorites
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+  
+    div(class='title-container')
+      h1 The Inventory Of Favorites
+      h3 Welcome to the favorites inventory, here you can share your favorite things
+
+    div(class='sidebar')
+      h1 Category List
+      if item_category_list.length
+        ul
+          li
+            input(type='checkbox' id='all-categories' name='all-categories' checked)
+            label(for='all-categories') All-categories
+          each category in item_category_list
+            li
+              input(type='checkbox' id=category name=category) 
+              label(for=category) #{category[0].toUpperCase() + category.substring(1)}
+      else
+        p There are no categories.
+
+    div(class='items-container')
+      block content
