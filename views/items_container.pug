@@ -1,0 +1,10 @@
+
+extends layout
+
+block content
+  if all_items.length
+    each item in all_items
+      div
+        p #{item.category}
+  else 
+    p empty

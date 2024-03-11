@@ -10,16 +10,14 @@ html
       h3 Welcome to the favorites inventory, here you can share your favorite things
 
     div(class='sidebar')
-      h1 Category List
-      if item_category_list.length
+      h1 Categories List
+      if categories_list.length
         ul
           li
-            input(type='checkbox' id='all-categories' name='all-categories' checked)
-            label(for='all-categories') All-categories
-          each category in item_category_list
+            a(href='/all-categories') All-categories
+          each category in categories_list
             li
-              input(type='checkbox' id=category name=category) 
-              label(for=category) #{category[0].toUpperCase() + category.substring(1)}
+              a(href=`/${category}`) #{category[0].toUpperCase() + category.substring(1)}
       else
         p There are no categories.
 
