@@ -17,7 +17,7 @@ html
             a(href='/all-categories') All-categories
           each category in categories_list
             li
-              a(href=`/${category}`) #{category[0].toUpperCase() + category.substring(1)}
+              a(href=`/category/${category}`) #{category[0].toUpperCase() + category.substring(1)}
       else
         p There are no categories.
 
