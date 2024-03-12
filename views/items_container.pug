@@ -4,7 +4,13 @@ extends layout
 block content
   if all_items.length
     each item in all_items
-      div
-        p #{item.category}
+      a(href=`/category/item/${item._id}`)
+        div
+          h3 #{item.name}
+          img(src='/')
+          h4 By: #{item.author}
+          h4 Genre: #{item.genre}
+        div
+          p #{item.category}
   else 
     p empty
