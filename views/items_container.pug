@@ -6,11 +6,12 @@ block content
     each item in all_items
       a(href=`/category/item/${item._id}`)
         div
-          h3 #{item.name}
-          img(src='/')
-          h4 By: #{item.author}
-          h4 Genre: #{item.genre}
-        div
-          p #{item.category}
+          div
+            h3 #{item.name}
+            img(src='/')
+            h4 By: #{item.author}
+            h4 Genre: #{item.genre}
+          div
+            p #{item.category}
   else 
     p empty

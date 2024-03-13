@@ -10,7 +10,10 @@ html
       h3 Welcome to the favorites inventory, here you can share your favorite things
 
     div(class='sidebar')
-      h1 Categories List
+      div
+        h1 Categories List
+        a(href='/addItem')
+          img(src='/')
       if categories_list.length
         ul
           li

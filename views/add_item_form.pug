@@ -1,0 +1,21 @@
+extend layout
+
+block content
+
+  form(method='POST')
+    div
+      label(for='category') Category
+      input(type='text' id='category' placeholder='The name of the category' name='category' required)
+    div
+      label(for='name') Name
+      input(type='text' id='name' placeholder='The name of the favorite' name='name' required)
+    div
+      label(for='author') Author
+      input(type='text' id='author' placeholder='The name of whoever created it or the country of origin' name='author' required)
+    div
+      label(for='genre') Genre
+      input(type='text' id='genre' placeholder='One or more genres, e.g. fantasy or dessert in case of a recipe' name='genre' required)
+    div
+      label(for='details') Details
+      input(type='text' id='details' placeholder='E.g. the plot of a book or the ingredients with related steps for a recipe' name='details')
+    button(type='submit') Done

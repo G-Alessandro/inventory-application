@@ -10,12 +10,12 @@ const ItemSchema = new Schema({
     type: String, minLength: 1, maxLength: 100, required: true,
   },
   author: {
-    type: Schema.Types.Mixed, minLength: 1, maxLength: 100, required: true,
+    type: Schema.Types.Mixed, required: true,
   },
   genre: {
-    type: Schema.Types.Mixed, minLength: 1, maxLength: 100, required: true,
+    type: Schema.Types.Mixed, required: true,
   },
-  details: { type: String, minLength: 1, maxLength: 5000 },
+  details: { type: String },
 });
 
 ItemSchema.virtual('url').get(function () {
