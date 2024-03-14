@@ -2,16 +2,16 @@ const asyncHandler = require('express-async-handler');
 
 const Item = require('../models/item');
 
+const getAllCategories = async () => await Item.distinct('category').sort({ category: 1 }).exec();
+
 exports.categories_list_get = asyncHandler(async (req, res, next) => {
-  const allCategories = await Item.distinct('category')
-    .sort({ category: 1 })
-    .exec();
+  const allCategories = getAllCategories();
   res.render('layout', { categories_list: allCategories });
 });
 
 exports.all_items_get = asyncHandler(async (req, res, next) => {
   const [allCategories, allItems] = await Promise.all([
-    Item.distinct('category').sort({ category: 1 }).exec(),
+    getAllCategories(),
     Item.find({}, 'category').populate('name').populate('author').populate('genre')
       .sort({ category: 1 })
       .exec(),
@@ -21,16 +21,8 @@ exports.all_items_get = asyncHandler(async (req, res, next) => {
 
 exports.category_items_get = asyncHandler(async (req, res, next) => {
   const [allCategories, categoryItems] = await Promise.all([
-    Item.distinct('category').sort({ category: 1 }).exec(),
+    getAllCategories(),
     Item.find({ category: req.params.categoryName }).exec(),
   ]);
   res.render('items_container', { categories_list: allCategories, all_items: categoryItems });
-});
-
-exports.item_details_get = asyncHandler(async (req, res, next) => {
-  const [allCategories, itemDetails] = await Promise.all([
-    Item.distinct('category').sort({ category: 1 }).exec(),
-    Item.findOne({ _id: req.params.itemId }).exec(),
-  ]);
-  res.render('item_details', { categories_list: allCategories, item_details: itemDetails });
 });

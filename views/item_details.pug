@@ -2,7 +2,12 @@ extends layout
 
 block content
   div
-    h3 #{item_details.name}
+    div
+      h3 #{item_details.name}
+      a(href=`/category/updateItem/${item_details._id}`)
+        img(src='/')
+      //- a(href=`/category/itemDelete/${item_details._id}`)
+      //-   img(src='/')
     img(src='/')
     h4 By: #{item_details.author}
     h4 Genre: #{item_details.genre}
