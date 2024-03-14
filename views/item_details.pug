@@ -6,8 +6,8 @@ block content
       h3 #{item_details.name}
       a(href=`/category/updateItem/${item_details._id}`)
         img(src='/')
-      //- a(href=`/category/itemDelete/${item_details._id}`)
-      //-   img(src='/')
+      form(action=`/category/deleteItem/${item_details._id}`, method='POST')
+        button(type='submit') Delete
     img(src='/')
     h4 By: #{item_details.author}
     h4 Genre: #{item_details.genre}

@@ -110,3 +110,28 @@ exports.item_update_post = [
     }
   }),
 ];
+
+exports.item_delete_post = asyncHandler(async (req, res, next) => {
+  const item = await Item.findById(req.params.itemId).exec();
+  if (!item) {
+    return res.status(404).send('Item not found');
+  }
+
+  const { category } = item;
+
+  await Item.findByIdAndDelete(req.params.itemId);
+
+  const totalCategory = await Item.countDocuments({ category });
+
+  if (totalCategory === 0) {
+    const [allCategories, allItems] = await Promise.all([
+      getAllCategories(),
+      Item.find({}, 'category').populate('name').populate('author').populate('genre')
+        .sort({ category: 1 })
+        .exec(),
+    ]);
+    res.render('items_container', { categories_list: allCategories, all_items: allItems });
+  } else {
+    res.redirect(`/category/${category}`);
+  }
+});

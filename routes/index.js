@@ -21,4 +21,6 @@ router.get('/category/updateItem/:itemId', item_controller.item_update_get);
 
 router.post('/category/updateItem/:itemId', item_controller.item_update_post);
 
+router.post('/category/deleteItem/:itemId', item_controller.item_delete_post);
+
 module.exports = router;
