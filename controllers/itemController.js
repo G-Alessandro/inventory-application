@@ -4,6 +4,7 @@ const fs = require('fs');
 const Item = require('../models/item');
 const cloudinary = require('../cloudinary/cloudinaryConfiguration');
 const upload = require('../multer/multer');
+require('dotenv').config();
 
 const getAllCategories = () => Item.distinct('category').sort({ category: 1 }).exec();
 
@@ -100,6 +101,24 @@ exports.add_item_post = [
   }),
 ];
 
+exports.password_form_get = asyncHandler(async (req, res, next) => {
+  const [allCategories, itemDetails] = await Promise.all([
+    getAllCategories(),
+    Item.findOne({ _id: req.params.itemId }).exec(),
+  ]);
+  res.render('password_form', { categories_list: allCategories, item_details: itemDetails, action: 'authentication' });
+});
+
+exports.password_form_post = asyncHandler(async (req, res, next) => {
+  const passwordEntered = req.body.password;
+  const correctPassword = process.env.ADMIN_PASSWORD;
+  if (passwordEntered === correctPassword) {
+    res.redirect(`/category/updateItem/${req.params.itemId}`);
+  } else {
+    res.status(401).send('Wrong password. Access denied.');
+  }
+});
+
 exports.item_update_get = asyncHandler(async (req, res, next) => {
   const [allCategories, itemDetails] = await Promise.all([
     getAllCategories(),
@@ -152,9 +171,7 @@ exports.item_update_post = [
           } else {
             uploadImage = await cloudinary.uploader.upload(req.file.path, { folder: 'inventoryApp' });
             await cloudinary.uploader.destroy(currentItem.image.publicId);
-            console.log('File Eliminato');
           }
-          console.log('File Modificato');
         }
 
         const updatedItem = await Item.findByIdAndUpdate(req.params.itemId, {
@@ -188,31 +205,44 @@ exports.item_update_post = [
   }),
 ];
 
+exports.item_delete_get = asyncHandler(async (req, res, next) => {
+  const [allCategories, itemDetails] = await Promise.all([
+    getAllCategories(),
+    Item.findOne({ _id: req.params.itemId }).exec(),
+  ]);
+  res.render('password_form', { categories_list: allCategories, item_details: itemDetails, action: 'deleteItem' });
+});
+
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-  const item = await Item.findById(req.params.itemId).exec();
-  if (!item) {
-    return res.status(404).send('Item not found');
-  }
+  const passwordEntered = req.body.password;
+  const correctPassword = process.env.ADMIN_PASSWORD;
+  if (passwordEntered === correctPassword) {
+    const item = await Item.findById(req.params.itemId).exec();
+    if (!item) {
+      return res.status(404).send('Item not found');
+    }
+    const { category } = item;
 
-  const { category } = item;
+    if (item.image.publicId !== 'inventoryApp/y2j4xt2ujnrnnz8nuqmt') {
+      await cloudinary.uploader.destroy(item.image.publicId);
+      console.log('Image removed');
+    }
+    await Item.findByIdAndDelete(req.params.itemId);
 
-  if (item.image.publicId !== 'inventoryApp/y2j4xt2ujnrnnz8nuqmt') {
-    await cloudinary.uploader.destroy(item.image.publicId);
-    console.log('Image removed');
-  }
-  await Item.findByIdAndDelete(req.params.itemId);
+    const totalCategory = await Item.countDocuments({ category });
 
-  const totalCategory = await Item.countDocuments({ category });
-
-  if (totalCategory === 0) {
-    const [allCategories, allItems] = await Promise.all([
-      getAllCategories(),
-      Item.find({}, 'category').populate('name').populate('author').populate('genre')
-        .sort({ category: 1 })
-        .exec(),
-    ]);
-    res.render('items_container', { categories_list: allCategories, all_items: allItems });
+    if (totalCategory === 0) {
+      const [allCategories, allItems] = await Promise.all([
+        getAllCategories(),
+        Item.find({}, 'category').populate('name').populate('author').populate('genre')
+          .sort({ category: 1 })
+          .exec(),
+      ]);
+      res.render('items_container', { categories_list: allCategories, all_items: allItems });
+    } else {
+      res.redirect(`/category/${category}`);
+    }
   } else {
-    res.redirect(`/category/${category}`);
+    res.status(401).send('Wrong password. Access denied.');
   }
 });

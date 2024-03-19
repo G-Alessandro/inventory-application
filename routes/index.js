@@ -17,9 +17,15 @@ router.get('/addItem', item_controller.add_item_get);
 
 router.post('/addItem', item_controller.add_item_post);
 
+router.get('/category/authentication/:itemId', item_controller.password_form_get);
+
+router.post('/category/authentication/:itemId', item_controller.password_form_post);
+
 router.get('/category/updateItem/:itemId', item_controller.item_update_get);
 
 router.post('/category/updateItem/:itemId', item_controller.item_update_post);
+
+router.get('/category/deleteItem/:itemId', item_controller.item_delete_get);
 
 router.post('/category/deleteItem/:itemId', item_controller.item_delete_post);
 
