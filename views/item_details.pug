@@ -4,11 +4,11 @@ block content
   div
     div
       h3 #{item_details.name}
-      a(href=`/category/updateItem/${item_details._id}`)
+      a(href=`/category/updateItem/${item_details._id}`) update
         img(src='/')
       form(action=`/category/deleteItem/${item_details._id}`, method='POST')
         button(type='submit') Delete
-    img(src='/')
+    img(src=item_details.image.imageUrl)
     h4 By: #{item_details.author}
     h4 Genre: #{item_details.genre}
     p #{item_details.details}

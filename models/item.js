@@ -9,6 +9,11 @@ const ItemSchema = new Schema({
   name: {
     type: String, minLength: 1, maxLength: 100, required: true,
   },
+  image: {
+    name: { type: String },
+    imageUrl: { type: String },
+    publicId: { type: String },
+  },
   author: {
     type: Schema.Types.Mixed, required: true,
   },

@@ -2,7 +2,10 @@ extend layout
 
 block content
 
-  form(method='POST')
+  form(method='POST' enctype='multipart/form-data')
+    div
+      label(for='uploaded_image') Add image
+      input(type='file' id='uploaded_image' name='uploaded_image')
     div
       label(for='category') Category
       input(type='text' id='category' placeholder='The name of the category' value=`${item_details? item_details.category :''}` name='category' required)

@@ -2,10 +2,10 @@ const asyncHandler = require('express-async-handler');
 
 const Item = require('../models/item');
 
-const getAllCategories = async () => await Item.distinct('category').sort({ category: 1 }).exec();
+const getAllCategories = () => Item.distinct('category').sort({ category: 1 }).exec();
 
 exports.categories_list_get = asyncHandler(async (req, res, next) => {
-  const allCategories = getAllCategories();
+  const allCategories = await getAllCategories();
   res.render('layout', { categories_list: allCategories });
 });
 
