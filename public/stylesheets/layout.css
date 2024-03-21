@@ -21,6 +21,7 @@ body {
   color: white;
   font-size: 40px;
   font-weight: 900;
+  text-transform: uppercase;
 }
 
 .title-container>h3 {
