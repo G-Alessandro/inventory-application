@@ -2,27 +2,33 @@ doctype html
 html
   head
     title The Inventory Of Favorites
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/layout.css')
+    link(rel='stylesheet', href='/stylesheets/items_container.css')
+    link(rel='stylesheet', href='/stylesheets/item_form.css')
+    link(rel='stylesheet', href='/stylesheets/item_details.css')
+    link(rel='stylesheet', href='/stylesheets/error.css')
   body
   
     div(class='title-container')
       h1 The Inventory Of Favorites
-      h3 Welcome to the favorites inventory, here you can share your favorite things
+      h3 Here you can share your favorite things
 
-    div(class='sidebar')
-      div
-        h1 Categories List
-        a(href='/addItem')
-          img(src='/')
-      if categories_list.length
-        ul
-          li
-            a(href='/all-categories') All-categories
-          each category in categories_list
+    div(class='category-title-container')
+      h1 Categories List
+      a(href='/addItem' class='icon-link')
+        img(src='/images/icons/add-circle.svg' class='icon')
+
+    div(class='sidebar-items-container')
+      div(class='sidebar')
+        if categories_list.length
+          ul
             li
-              a(href=`/category/${category}`) #{category[0].toUpperCase() + category.substring(1)}
-      else
-        p There are no categories.
+              a(href='/all-categories') All-categories
+            each category in categories_list
+              li
+                a(href=`/category/${category}`) #{category[0].toUpperCase() + category.substring(1)}
+        else
+          p There are no categories.
 
-    div(class='items-container')
-      block content
+      div(class='items-container')
+        block content

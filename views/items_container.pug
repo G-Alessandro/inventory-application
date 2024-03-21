@@ -5,13 +5,12 @@ block content
   if all_items.length
     each item in all_items
       a(href=`/category/item/${item._id}`)
-        div
-          div
-            h3 #{item.name}
-            img(src=item.image.imageUrl)
-            h4 By: #{item.author}
-            h4 Genre: #{item.genre}
-          div
-            p #{item.category}
+        div(class='item-card')
+          img(src=item.image.imageUrl)
+          h4 #{item.name}
+          div Genre :
+            p #{item.genre}
+        div(class='item-card-category')
+          p #{item.category}
   else 
     p empty

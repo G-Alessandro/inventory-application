@@ -12,7 +12,7 @@ exports.categories_list_get = asyncHandler(async (req, res, next) => {
 exports.all_items_get = asyncHandler(async (req, res, next) => {
   const [allCategories, allItems] = await Promise.all([
     getAllCategories(),
-    Item.find({}, 'category').populate('name').populate('author').populate('genre')
+    Item.find({}, 'category').populate('image').populate('name').populate('genre')
       .sort({ category: 1 })
       .exec(),
   ]);

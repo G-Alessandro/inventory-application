@@ -21,9 +21,9 @@ router.get('/category/authentication/:itemId', item_controller.password_form_get
 
 router.post('/category/authentication/:itemId', item_controller.password_form_post);
 
-router.get('/category/updateItem/:itemId', item_controller.item_update_get);
+router.get('/category/editItem/:itemId', item_controller.item_edit_get);
 
-router.post('/category/updateItem/:itemId', item_controller.item_update_post);
+router.post('/category/editItem/:itemId', item_controller.item_edit_post);
 
 router.get('/category/deleteItem/:itemId', item_controller.item_delete_get);
 

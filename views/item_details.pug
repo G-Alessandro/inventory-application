@@ -1,16 +1,21 @@
 extends layout
 
 block content
-  div
-    div
-      h3 #{item_details.name}
-      a(href=`/category/authentication/${item_details._id}`) Update
-        img(src='/')
-      a(href=`/category/deleteItem/${item_details._id}`) Delete
-        img(src='/')
-    img(src=item_details.image.imageUrl)
-    h4 By: #{item_details.author}
-    h4 Genre: #{item_details.genre}
-    p #{item_details.details}
-  div
+  div(class='item-container')
+    div(class='item-details-container')
+      img(src=item_details.image.imageUrl)
+      div(class='details-link-container')
+        div
+          p #{item_details.name}
+          div By: 
+            p #{item_details.author}
+          div Genre: 
+            p #{item_details.genre}
+          div Description:
+            p #{item_details.details}
+        div(class='link-container')
+          a(href=`/category/authentication/${item_details._id}` class='edit-link') Edit
+              img(src='/images/icons/edit.svg' class='icon')
+          a(href=`/category/deleteItem/${item_details._id}` class='delete-link') Delete
+            img(src='/images/icons/trashcan.svg' class='icon')
     p #{item_details.category}

@@ -113,13 +113,13 @@ exports.password_form_post = asyncHandler(async (req, res, next) => {
   const passwordEntered = req.body.password;
   const correctPassword = process.env.ADMIN_PASSWORD;
   if (passwordEntered === correctPassword) {
-    res.redirect(`/category/updateItem/${req.params.itemId}`);
+    res.redirect(`/category/editItem/${req.params.itemId}`);
   } else {
     res.status(401).send('Wrong password. Access denied.');
   }
 });
 
-exports.item_update_get = asyncHandler(async (req, res, next) => {
+exports.item_edit_get = asyncHandler(async (req, res, next) => {
   const [allCategories, itemDetails] = await Promise.all([
     getAllCategories(),
     Item.findOne({ _id: req.params.itemId }).exec(),
@@ -127,7 +127,7 @@ exports.item_update_get = asyncHandler(async (req, res, next) => {
   res.render('item_form', { categories_list: allCategories, item_details: itemDetails });
 });
 
-exports.item_update_post = [
+exports.item_edit_post = [
   upload.single('uploaded_image'),
   body('category', 'Category must not be empty.')
     .trim()
