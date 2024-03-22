@@ -2,23 +2,26 @@ extend layout
 
 block content
 
-  form(method='POST' enctype='multipart/form-data')
-    div
-      label(for='uploaded_image') Add image
-      input(type='file' id='uploaded_image' name='uploaded_image')
-    div
-      label(for='category') Category
-      input(type='text' id='category' placeholder='The name of the category' value=`${item_details? item_details.category :''}` name='category' required)
-    div
-      label(for='name') Name
-      input(type='text' id='name' placeholder='The name of the favorite' value=`${item_details? item_details.name :''}` name='name' required)
-    div
-      label(for='author') Author
-      input(type='text' id='author' placeholder='The name of whoever created it or the country of origin' value=`${item_details? item_details.author :''}` name='author' required)
-    div
-      label(for='genre') Genre
-      input(type='text' id='genre' placeholder='One or more genres, e.g. fantasy or dessert in case of a recipe' value=`${item_details? item_details.genre :''}` name='genre' required)
-    div
-      label(for='details') Details
-      input(type='text' id='details' placeholder='E.g. the plot of a book or the ingredients with related steps for a recipe' value=`${item_details? item_details.details :''}` name='details')
-    button(type='submit') Done
+  form(method='POST' enctype='multipart/form-data' class='item-form')
+    div(class='input-container')
+      div
+        div
+          label(for='category') Category:
+          input(type='text' id='category' maxlength="30" placeholder='The name of the category' value=`${item_details? item_details.category :''}` name='category' required)
+        div
+          label(for='name') Name:
+          input(type='text' id='name' maxlength="100" placeholder='The name of the favorite' value=`${item_details? item_details.name :''}` name='name' required)
+        div
+          label(for='author') Author:
+          input(type='text' id='author' placeholder='The name of whoever created it or the country of origin' value=`${item_details? item_details.author :''}` name='author' required)
+        div
+          label(for='uploaded_image') Add image:
+          input(type='file' id='uploaded_image' class='upload-image' name='uploaded_image')
+      div
+        div
+          label(for='genre') Genre:
+          textarea(id='genre' rows="4" cols="50" placeholder='One or more genres, e.g. fantasy or dessert in case of a recipe' value=`${item_details? item_details.genre :''}` name='genre' required)
+        div
+          label(for='details') Details:
+          textarea(id='details' rows="6" cols="50" placeholder='E.g. the plot of a book or the ingredients with related steps for a recipe' value=`${item_details? item_details.details :''}` name='details')
+    button(type='submit') DONE

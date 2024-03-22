@@ -115,7 +115,9 @@ exports.password_form_post = asyncHandler(async (req, res, next) => {
   if (passwordEntered === correctPassword) {
     res.redirect(`/category/editItem/${req.params.itemId}`);
   } else {
-    res.status(401).send('Wrong password. Access denied.');
+    const error = 'ERROR: 401 Wrong password. Access denied.';
+    const allCategories = await getAllCategories();
+    res.render('error.pug', { categories_list: allCategories, error });
   }
 });
 
@@ -225,7 +227,6 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
 
     if (item.image.publicId !== 'inventoryApp/y2j4xt2ujnrnnz8nuqmt') {
       await cloudinary.uploader.destroy(item.image.publicId);
-      console.log('Image removed');
     }
     await Item.findByIdAndDelete(req.params.itemId);
 
@@ -243,6 +244,8 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
       res.redirect(`/category/${category}`);
     }
   } else {
-    res.status(401).send('Wrong password. Access denied.');
+    const error = 'ERROR: 401 Wrong password. Access denied.';
+    const allCategories = await getAllCategories();
+    res.render('error.pug', { categories_list: allCategories, error });
   }
 });
