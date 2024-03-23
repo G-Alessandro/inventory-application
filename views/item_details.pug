@@ -11,8 +11,9 @@ block content
             p #{item_details.author}
           div Genre: 
             p #{item_details.genre}
-          div Description:
-            p #{item_details.details}
+          if(item_details.details)
+            div Description:
+              p #{item_details.details}
         div(class='link-container')
           a(href=`/category/authentication/${item_details._id}` class='edit-link') Edit
               img(src='/images/icons/edit.svg' class='icon')
