@@ -12,7 +12,8 @@ block content
           div(class='genre-container') Genre: 
             p #{item_details.genre}
           if(item_details.details)
-            div(class='description-container') Description:
+            h2(class='description-title') Description:
+            div(class='description-container')
               p #{item_details.details}
         div(class='link-container')
           a(href=`/category/authentication/${item_details._id}` class='edit-link') Edit
