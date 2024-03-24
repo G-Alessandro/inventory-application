@@ -8,6 +8,7 @@ body {
   background-image: url("../images/inventory-app.svg");
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100vh;
 }
 
 .title-container{
@@ -114,7 +115,7 @@ a {
   background: #2db7dd; 
 }
 
-@media screen and (max-width: 550px) {
+@media (max-width: 550px) {
 
   body {
     display: flex;
