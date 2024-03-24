@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
+const he = require('he');
 const Item = require('../models/item');
 const cloudinary = require('../cloudinary/cloudinaryConfiguration');
 const upload = require('../multer/multer');
@@ -62,7 +63,7 @@ exports.add_item_post = [
         } else {
           uploadImage = {
             original_filename: 'inventory-app-cover',
-            secure_url: 'https://res.cloudinary.com/duov43vlh/image/upload/w_300,h_300/v1710789330/inventoryApp/y2j4xt2ujnrnnz8nuqmt.svg',
+            secure_url: 'https://res.cloudinary.com/duov43vlh/image/upload/w_400,h_400/v1710789330/inventoryApp/y2j4xt2ujnrnnz8nuqmt.svg',
             public_id: 'inventoryApp/y2j4xt2ujnrnnz8nuqmt',
           };
         }
@@ -72,13 +73,19 @@ exports.add_item_post = [
           name: req.body.name,
           image: {
             name: uploadImage.original_filename,
-            imageUrl: `${uploadImage.secure_url.replace('upload/', 'upload/w_300,h_300/')}`,
+            imageUrl: `${uploadImage.secure_url.replace('upload/', 'upload/w_400,h_400/')}`,
             publicId: uploadImage.public_id,
           },
           author: req.body.author,
           genre: req.body.genre,
           details: req.body.details,
         });
+
+        item.category = he.decode(item.category);
+        item.name = he.decode(item.name);
+        item.author = he.decode(item.author);
+        item.genre = he.decode(item.genre);
+        item.details = he.decode(item.details);
 
         await item.save();
 
@@ -177,16 +184,16 @@ exports.item_edit_post = [
         }
 
         const updatedItem = await Item.findByIdAndUpdate(req.params.itemId, {
-          category: req.body.category,
-          name: req.body.name,
+          category: he.decode(req.body.category),
+          name: he.decode(req.body.name),
           image: {
             name: uploadImage.original_filename,
-            imageUrl: `${uploadImage.secure_url.replace('upload/', 'upload/w_300,h_300/')}`,
+            imageUrl: `${uploadImage.secure_url.replace('upload/', 'upload/w_400,h_400/')}`,
             publicId: uploadImage.public_id,
           },
-          author: req.body.author,
-          genre: req.body.genre,
-          details: req.body.details,
+          author: he.decode(req.body.author),
+          genre: he.decode(req.body.genre),
+          details: he.decode(req.body.details),
         }, { new: true });
 
         if (req.file) {

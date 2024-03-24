@@ -25,14 +25,14 @@
   flex-direction: column;
   align-items: center;
   width: 200px;
-  height: 310px;
+  height: 350px;
   padding: 8px;
   background-color: white;
 }
 
 .item-card>img {
   width: 200px;
-  height: 200px;
+  height: 250px;
   background-color: white;
 }
 

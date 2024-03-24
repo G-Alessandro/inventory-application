@@ -21,8 +21,8 @@
 .item-details-container>img {
   align-self: center;
   justify-self: center;
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 350px;
   background-color: white;
 }
 
@@ -50,8 +50,17 @@
 
 .details-link-container>div>div>p {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 3px;
+}
+
+.genre-container {
+  overflow-y: auto;
+}
+
+.description-container {
+  height: 135px;
+  overflow-y: auto;
 }
 
 .link-container {

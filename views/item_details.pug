@@ -9,10 +9,10 @@ block content
           p #{item_details.name}
           div By: 
             p #{item_details.author}
-          div Genre: 
+          div(class='genre-container') Genre: 
             p #{item_details.genre}
           if(item_details.details)
-            div Description:
+            div(class='description-container') Description:
               p #{item_details.details}
         div(class='link-container')
           a(href=`/category/authentication/${item_details._id}` class='edit-link') Edit

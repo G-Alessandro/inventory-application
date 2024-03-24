@@ -3,7 +3,6 @@
 console.log(
   'This script populates some test items to your database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"',
 );
-// node populatedb "mongodb+srv://admin:admin4321@cluster0.qjtveoj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
@@ -33,6 +32,11 @@ async function itemCreate(index, category, name, author, genre, details) {
   const itemdetail = {
     category,
     name,
+    image: {
+      name: 'inventory-app-cover',
+      imageUrl: 'https://res.cloudinary.com/duov43vlh/image/upload/w_300,h_300/w_300,h_300/v1710789330/inventoryApp/y2j4xt2ujnrnnz8nuqmt.svg',
+      publicId: 'inventoryApp/y2j4xt2ujnrnnz8nuqmt',
+    },
     author,
     genre,
     details,
@@ -52,7 +56,7 @@ async function createItems() {
     itemCreate(2, 'films', 'The Lord of the Rings: The Return of the King', 'Peter Jackson', ['fantasy', 'adventure'], 'While Frodo and Sam, accompanied by Gollum, continue their journey towards Mount Doom to destroy the ring, the rest of the company rushes to the aid of Rohan and Gondor, engaged in the battle of the Pellenor Fields.'),
     itemCreate(3, 'tv series', 'Star Trek: Deep Space Nine', ['Rick Berman', 'Michael Piller'], 'science fiction', 'Commander Sisko has been assigned to the remote Starfleet outpost, space station Deep Space 9, where he has to oversee the recovery of the Bajoran people who are at the tail end of a lengthy war with a neighbouring race called The Cardassians.'),
     itemCreate(4, 'tv series', 'Star Trek: Voyager', ['Rick Berman', 'Michael Piller', 'Jeri Taylor'], 'science fiction', 'Pulled to the far side of the galaxy, where the Federation is seventy-five years away at maximum warp speed, a Starfleet ship must cooperate with Maquis rebels to find a way home.'),
-    itemCreate(5, 'books', 'The Lord of the Rings', 'John Ronald Reuel Tolkien', ['high fantasy', 'adventure'], 'The title refers to the story\'s main antagonist, Sauron, the Dark Lord who in an earlier age created the One Ring to rule the other Rings of Power given to Men, Dwarves, and Elves, in his campaign to conquer all of Middle-earth. From homely beginnings in the Shire, a hobbit land reminiscent of the English countryside, the story ranges across Middle-earth, following the quest to destroy the One Ring, seen mainly through the eyes of the hobbits Frodo, Sam, Merry, and Pippin. Aiding Frodo are the Wizard Gandalf, the Men Aragorn and Boromir, the Elf Legolas, and the Dwarf Gimli, who unite in order to rally the Free Peoples of Middle-earth against Sauron\'s armies and give Frodo a chance to destroy the One Ring in the fire of Mount Doom.'),
+    itemCreate(5, 'books', 'The Lord of the Rings', 'John Ronald Reuel Tolkien', ['high fantasy', 'adventure'], 'The title refers to the story|'s main antagonist, Sauron, the Dark Lord who in an earlier age created the One Ring to rule the other Rings of Power given to Men, Dwarves, and Elves, in his campaign to conquer all of Middle-earth. From homely beginnings in the Shire, a hobbit land reminiscent of the English countryside, the story ranges across Middle-earth, following the quest to destroy the One Ring, seen mainly through the eyes of the hobbits Frodo, Sam, Merry, and Pippin. Aiding Frodo are the Wizard Gandalf, the Men Aragorn and Boromir, the Elf Legolas, and the Dwarf Gimli, who unite in order to rally the Free Peoples of Middle-earth against Sauron\'s armies and give Frodo a chance to destroy the One Ring in the fire of Mount Doom.'),
     itemCreate(6, 'board games', 'Catan', 'Klaus Teuber', ['strategy', 'negotiation'], 'Players take on the roles of settlers, each attempting to build and develop holdings while trading and acquiring resources. Players gain victory points as their settlements grow and the first to reach a set number of victory points, typically 10, wins.'),
     itemCreate(7, 'games', 'Baldur\'s Gate III', 'Larian Studios', ['role-playing', 'fantasy'], 'Baldur\'s Gate 3 is a role-playing video game with single-player and cooperative multiplayer elements. Players can create one or more characters and form a party along with a number of pre-generated characters to explore the game\'s story. Optionally, players are able to take one of their characters and team up online with other players to form a party.'),
     itemCreate(8, 'recipes', 'Scientific Pasta Alla Carbonara', 'Dario Bressanini', 'pasta dish', `Ingredients for one person: 80 g of pasta,2 yolk or whole egg (with the yolk the flavor is more intense), 30+10 g of pecorino romano and/or parmesan (the pecorino romano is the traditional ingredient and tastes stronger than parmesan, i like both. The 10 g are for the final addition),40-50 g of bacon/guanciale (guanciale is the traditional ingredient, but after years of testing I much prefer bacon, it tastes better, at least to me),freshly ground black pepper, salt. 
