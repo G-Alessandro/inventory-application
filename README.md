@@ -7,6 +7,7 @@
 <h3>Credit:</H3>
 
 <ul>
+  <li><a href="https://fonts.google.com/specimen/Titan+One?preview.text=THE%20INVENTORY%20OF%20FAVORITES&query=titan+one" target="_blank" >Fonts used</a></li>
   <li><a href="https://www.svgrepo.com/svg/440696/trashcan" target="_blank" >Delete SVG</a></li>
   <li><a href="https://www.svgrepo.com/svg/449487/edit" target="_blank" >Edit SVG</a></li>
   <li><a href="https://www.svgrepo.com/svg/494972/add-circle" target="_blank" >Add SVG</a></li>
