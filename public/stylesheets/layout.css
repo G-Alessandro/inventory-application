@@ -60,7 +60,7 @@ body {
 }
 
 .sidebar {
-  height: 500px;
+  max-height: 450px;
   background-color: rgba(255, 255, 255, 0.727);
   margin-left: 20px;
   padding: 10px;

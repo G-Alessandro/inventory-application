@@ -242,7 +242,7 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
     if (totalCategory === 0) {
       const [allCategories, allItems] = await Promise.all([
         getAllCategories(),
-        Item.find({}, 'category').populate('name').populate('author').populate('genre')
+        Item.find({}, 'category').populate('image').populate('name').populate('genre')
           .sort({ category: 1 })
           .exec(),
       ]);
