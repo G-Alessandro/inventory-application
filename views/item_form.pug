@@ -20,8 +20,8 @@ block content
       div
         div
           label(for='genre') Genre:
-          textarea(id='genre' rows="4" cols="50" placeholder='One or more genres, e.g. fantasy or dessert in case of a recipe' value=`${item_details? item_details.genre :''}` name='genre' required)
+          textarea(id='genre' rows="4" placeholder='One or more genres, e.g. fantasy or dessert in case of a recipe' name='genre' required) #{item_details? item_details.genre :''}
         div
           label(for='details') Details:
-          textarea(id='details' rows="6" cols="50" placeholder='E.g. the plot of a book or the ingredients with related steps for a recipe' value=`${item_details? item_details.details :''}` name='details')
+          textarea(id='details' rows="6" placeholder='E.g. the plot of a book or the ingredients with related steps for a recipe' name='details') #{item_details? item_details.details :''}
     button(type='submit') DONE

@@ -68,9 +68,10 @@
 
   .items-container {
     justify-content: center;
-    height: 320px;
+    width: auto;
+    max-height: 350px;
     gap: 10px;
-    padding: 10px;
+    padding: 10px 5px;
     margin-right: 0px;
   }
   

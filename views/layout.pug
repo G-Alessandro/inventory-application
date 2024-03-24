@@ -18,20 +18,23 @@ html
 
     div(class='category-title-container')
       h1 Categories List
+      p Add favorite
       a(href='/addItem' class='icon-link')
         img(src='/images/icons/add-circle.svg' class='icon')
 
     div(class='sidebar-items-container')
-      div(class='sidebar')
-        if categories_list.length
-          ul
-            li
-              a(href='/all-categories') All Categories
-            each category in categories_list
+      div(class='dropdown-menu-category')
+        button(class='dropdown-category-btn') click here to select a category
+        div(class='sidebar')
+          if categories_list.length
+            ul
               li
-                a(href=`/category/${category}`) #{category[0].toUpperCase() + category.substring(1)}
-        else
-          p There are no categories.
+                a(href='/all-categories') All Categories
+              each category in categories_list
+                li
+                  a(href=`/category/${category}`) #{category[0].toUpperCase() + category.substring(1)}
+          else
+            p There are no categories.
 
       div(class='items-container')
         block content

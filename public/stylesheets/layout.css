@@ -1,3 +1,8 @@
+@font-face {
+  font-family: TitanOne-Regular;
+  src: url(../fonts/TitanOne-Regular.ttf);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -19,9 +24,10 @@ body {
 }
 
 .title-container>h1 {
+  letter-spacing: 2px;
+  font-family: TitanOne-Regular;
   color: rgb(255, 255, 255);
   font-size: 40px;
-  font-weight: 700;
 }
 
 .title-container>h3 {
@@ -39,10 +45,18 @@ body {
   padding-top: 10px;
 }
 
+.category-title-container>p {
+  display: none;
+}
+
 .sidebar-items-container {
   display: grid;
   grid-template-columns: .6fr 3fr;
   column-gap: 20px;
+}
+
+.dropdown-category-btn {
+  display: none;
 }
 
 .sidebar {
@@ -124,14 +138,14 @@ a {
   }
 
   .title-container>h1 {
-    font-size: 25px;
-  }
-
-  .title-container>h3 {
     font-size: 15px;
   }
 
-  .category-title-container{
+  .title-container>h3 {
+    font-size: 12px;
+  }
+
+  .category-title-container {
     display: flex;
     justify-content: center;
     width: 100vw;
@@ -141,24 +155,62 @@ a {
     margin: 0px;
   }
 
+  .category-title-container>h1 {
+    display: none;
+  }
+
+  .category-title-container>p {
+    display: block;
+    font-size: 35px;
+    font-weight: 700;  
+  }
+
   .sidebar-items-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+  }
+  
+  .dropdown-menu-category {
+    position: relative;
+    width: fit-content;
+    margin-top: 15px;
+    margin-bottom: 6px;
+  }
+
+  .dropdown-category-btn {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    align-self: center;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px 10px;
+    color: white;
+    background-color: #f8962c;
+    border-style: none;
   }
 
   .sidebar {
     align-self: center;
-    width: 90vw;
-    max-height: 150px;
+    width: 80%;
+    max-height: 250px;
     padding: 10px;
     overflow-x: hidden;
     flex-wrap: wrap;
+    display: none;
+    position: absolute;
+    top: 45px;
+    background-color: white;
+    border: 1px solid #53c6e7;
+  }
+
+  .dropdown-menu-category:hover .sidebar,
+  .dropdown-menu-category:active .sidebar{
+    display: block;
   }
 
   .sidebar>ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    flex-wrap: wrap;
     list-style-type: none;
   }
 

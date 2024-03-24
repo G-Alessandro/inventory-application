@@ -5,3 +5,10 @@
   border: 10px solid red;
   background-color: rgba(255, 255, 255, 0.819);
 }
+
+@media (max-width: 550px) {
+  .error {
+    font-size: 30px;
+    padding: 20px;
+  }
+}
