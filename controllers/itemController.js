@@ -69,7 +69,7 @@ exports.add_item_post = [
         }
 
         const item = new Item({
-          category: req.body.category,
+          category: req.body.category.toLowerCase(),
           name: req.body.name,
           image: {
             name: uploadImage.original_filename,
@@ -184,7 +184,7 @@ exports.item_edit_post = [
         }
 
         const updatedItem = await Item.findByIdAndUpdate(req.params.itemId, {
-          category: he.decode(req.body.category),
+          category: he.decode(req.body.category.toLowerCase()),
           name: he.decode(req.body.name),
           image: {
             name: uploadImage.original_filename,

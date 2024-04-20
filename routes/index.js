@@ -5,7 +5,7 @@ const router = express.Router();
 const category_controller = require('../controllers/categoryController');
 const item_controller = require('../controllers/itemController');
 
-router.get('/', category_controller.categories_list_get);
+router.get('/', category_controller.all_items_get);
 
 router.get('/all-categories', category_controller.all_items_get);
 

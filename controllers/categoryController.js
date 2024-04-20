@@ -4,11 +4,6 @@ const Item = require('../models/item');
 
 const getAllCategories = () => Item.distinct('category').sort({ category: 1 }).exec();
 
-exports.categories_list_get = asyncHandler(async (req, res, next) => {
-  const allCategories = await getAllCategories();
-  res.render('layout', { categories_list: allCategories });
-});
-
 exports.all_items_get = asyncHandler(async (req, res, next) => {
   const [allCategories, allItems] = await Promise.all([
     getAllCategories(),
